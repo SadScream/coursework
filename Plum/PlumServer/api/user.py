@@ -22,47 +22,6 @@ def get_users():
 	return data
 
 
-@user_api.route("/contacts/", methods=['GET'])
-@login_required
-def get_contacts():
-	data = {
-		"ok": True,
-		"contacts": list(map(user_to_json, current_user.contacts))
-	}
-
-	return data
-
-
-@user_api.route("/contacts/", methods=['POST'])
-@login_required
-def add_contact():
-	"""
-	-> JSON {
-		"user_id": int,
-	}
-	:return: JSON {'ok': true}
-	"""
-
-	data = {
-		"ok": False
-	}
-
-	r = request.json
-	contact = db.session.query(User).filter(User.user_id == r["user_id"]).first()
-
-	if contact:
-		current_user.add_contact(contact)
-		db.session.add(current_user)
-		db.session.commit()
-		data["ok"] = True
-
-		return json_response(data)
-
-	data["message"] = "User not found"
-
-	return json_response(data, 404)
-
-
 @user_api.route("/users/", methods=['POST'])
 @login_required
 def change_login():
@@ -85,8 +44,6 @@ def change_login():
 		return json_response(data, 409)
 	elif len(login):
 		current_user.login = login
-
-		db.session.add(current_user)
 		db.session.commit()
 
 		data["ok"] = True
@@ -113,8 +70,6 @@ def change_username():
 
 	if len(username):
 		current_user.username = username
-
-		db.session.add(current_user)
 		db.session.commit()
 
 		data["ok"] = True
@@ -173,6 +128,75 @@ def get_users_by_username(username):
 		data["ok"] = True
 
 		return json_response(data)
+
+	return json_response(data, 404)
+
+
+@user_api.route("/contacts/", methods=['GET'])
+@login_required
+def get_contacts():
+	data = {
+		"ok": True,
+		"contacts": list(map(user_to_json, current_user.contacts))
+	}
+
+	return data
+
+
+@user_api.route("/contacts/", methods=['POST'])
+@login_required
+def add_contact():
+	"""
+	-> JSON {
+		"user_id": int,
+	}
+	:return: JSON {'ok': true}
+	"""
+
+	data = {
+		"ok": False
+	}
+
+	r = request.json
+	contact = db.session.query(User).filter(User.user_id == r["user_id"]).first()
+
+	if contact:
+		current_user.add_contact(contact)
+		db.session.commit()
+		data["ok"] = True
+
+		return json_response(data)
+
+	data["message"] = "User not found"
+
+	return json_response(data, 404)
+
+
+@user_api.route("/contacts/", methods=['DELETE'])
+@login_required
+def delete_contact():
+	"""
+	-> JSON {
+		"user_id": int,
+	}
+	:return: JSON {'ok': true}
+	"""
+
+	data = {
+		"ok": False
+	}
+
+	r = request.json
+	contact = db.session.query(User).filter(User.user_id == r["user_id"]).first()
+
+	if contact:
+		current_user.remove_contact(contact)
+		db.session.commit()
+		data["ok"] = True
+
+		return json_response(data)
+
+	data["message"] = "User not found"
 
 	return json_response(data, 404)
 
