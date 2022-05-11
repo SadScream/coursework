@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask_login import login_required, current_user, logout_user, login_user
 
 from tools.response import *  # noqa
-from models.db_context import db, User, Message, MessageTypes  # noqa
+from models.db_context import db, User, Message  # noqa
 
 auth_api = Blueprint('auth_api', __name__)
 
@@ -27,17 +27,17 @@ def sign_up():
 		return json_response(data, 403)
 
 	r = request.json
-	username = r['username']
+	login = r['login']
 	password = r['password']
 
-	user_obj = db.session.query(User).filter(User.username == username).first()
+	user_obj = db.session.query(User).filter(User.login == login).first()
 
 	if user_obj:
-		data["message"] = "This username is already taken"
+		data["message"] = "This login is already taken"
 		return json_response(data, 406)
 
-	if len(username) and len(password):
-		user = User(username=username)
+	if len(login) and len(password):
+		user = User(login=login, username=login)
 		user.set_password(password)
 
 		db.session.add(user)
@@ -50,13 +50,13 @@ def sign_up():
 	return json_response(data, 401)
 
 
-@auth_api.route('/login/', methods=['GET'])
-def login():
+@auth_api.route('/sign-in/', methods=['GET'])
+def sign_in():
 	'''
 	BasicAuth метод авторизации
 
 	-> HEADERS:
-		Authorization: Basic <username:password>  *BASE64*
+		Authorization: Basic <login:password>  *BASE64*
 	:return: {
 		"ok": bool,
 		"user_id": int,
@@ -73,12 +73,12 @@ def login():
 		data["message"] = "You're already logged in"
 		return json_response(data, 200)
 
-	remember = True if request.args.get("remember") == "1" else False
+	remember: bool = request.args.get("remember") == "1"
 
 	if request.authorization:
-		username = request.authorization.username
+		login = request.authorization.username
 		password = request.authorization.password
-		user_obj = db.session.query(User).filter(User.username == username).first()
+		user_obj = db.session.query(User).filter(User.login == login).first()
 
 		if user_obj and user_obj.check_password(password):
 			login_user(user_obj, remember=remember)
@@ -87,7 +87,7 @@ def login():
 
 			return json_response(data)
 
-		data["message"] = "Invalid username/password"
+		data["message"] = "Invalid login/password"
 		return json_response(data, 403)
 
 	data["message"] = "BasicAuth needs"

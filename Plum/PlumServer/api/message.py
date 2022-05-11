@@ -14,38 +14,39 @@ msg_api = Blueprint('msg_api', __name__)
 def send_message():
 	"""
 	-> JSON {
+		"recipient_id": int,
 		"text": str,
 		"date": float
 	}
 	:return: JSON {'ok': true}
 	"""
 
-	r = request.json
-	text = r["text"]
-	date = datetime.datetime.fromtimestamp(r["date"])
-
 	data = {
 		"ok": False
 	}
 
-	if current_user:
-		message_obj = Message(user_id=current_user.user_id, text=text, date=date)
+	r = request.json
+	text = r["text"]
+	date = datetime.datetime.fromtimestamp(r["date"])
+	recipient = db.session.query(User).filter(User.user_id == r["recipient_id"]).first()
+
+	if recipient:
+		message_obj = Message(owner=current_user, recipient=recipient, text=text, date=date)
 		db.session.add(message_obj)
 		db.session.commit()
 
 		data["ok"] = True
 		return json_response(data)
 
-	data["message"] = "User not found"
+	data["message"] = "Recipient not found"
 	return json_response(data, 404)
 
 
 @msg_api.route("/messages/", methods=['GET'])
 @login_required
 def get_messages():
-	messages = []
 	data = {
-		"ok": False
+		"ok": True
 	}
 
 	from_date = request.args.get("timestamp")  # сообщения будут искаться начиная с этой даты
@@ -54,29 +55,14 @@ def get_messages():
 		current_time = datetime.datetime.utcnow()
 		from_date = current_time - datetime.timedelta(seconds=60 * 60 * 24)
 
-	_messages: List[Message] = db.session.query(Message).filter(
-		Message.to == current_user.user_id or Message.from_ == current_user.user_id
+	list_messages: List[Message] = db.session.query(Message).filter(
+		Message.owner == current_user
 		and
 		Message.date >= from_date
 	).all()
 
-	for msg in _messages:
-		msg_json = {
-			"message_id": msg.message_id,
-			"username": msg.username,
-			"user_id": msg.user_id,
-			"text": msg.text,
-			"date": msg.date.timestamp()
-		}
+	data["messages"] = list(map(message_to_json, list_messages))
 
-		if msg.from_ != current_user.user_id:
-			user: User = db.session.query(User).filter(User.user_id == msg.user_id).first()
-			msg_json["username"] = user.username
-
-		messages.append(msg_json)
-
-	data["ok"] = True
-	data["messages"] = messages
 	return json_response(data)
 
 
@@ -90,15 +76,19 @@ def get_message(message_id):
 	}
 
 	if message_obj:
-		user: User = db.session.query(User).filter(User.user_id == message_obj.user_id).first()
-
 		data["ok"] = True
-		data["message_id"] = message_obj.message_id
-		data["user_id"] = message_obj.user_id
-		data["text"] = message_obj.text
-		data["date"] = message_obj.date.timestamp()
-		data["username"] = user.username
+		data.update(message_to_json(message_obj))
 
 		return json_response(data)
 
 	return json_response(data, 404)
+
+
+def message_to_json(message_obj: Message) -> dict:
+	data = {"owner_id": message_obj.owner_id,
+			"recipient_id": message_obj.recipient_id,
+			"recipient_username": message_obj.recipient.username,
+			"text": message_obj.text,
+			"date": message_obj.date.timestamp()}
+
+	return data

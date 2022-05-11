@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 from flask import Flask
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 from sqlalchemy import exc
 
@@ -35,6 +36,19 @@ def load_user(user_id):
 		return db.session.query(User).get(user_id)
 	except exc.OperationalError:
 		return db.session.query(User).get(user_id)
+
+
+@app.before_request
+def update_last_visit():
+	"""
+	При каждом обращении авторизованного пользователя к какому-либо пути
+	обновляем дату его последнего обращения
+	:return: None
+	"""
+
+	if current_user.is_authenticated:
+		current_user.last_visit = datetime.datetime.now()
+		db.session.commit()
 
 
 @app.route("/", methods=['POST', 'GET'])
