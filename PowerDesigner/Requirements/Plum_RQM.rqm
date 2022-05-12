@@ -1433,11 +1433,11 @@ FullDescription
 <c:Requirements>
 <o:Requirement Id="o67">
 <a:ObjectID>E8D35E9F-8CFB-4E68-9359-6CA5223394CA</a:ObjectID>
-<a:Requirement.Title>Не менее 3 символов и не более 128</a:Requirement.Title>
+<a:Requirement.Title>Не менее 3 символов и не более 16</a:Requirement.Title>
 <a:Code>REQ_  56</a:Code>
 <a:CreationDate>1652163284</a:CreationDate>
 <a:Creator>Ilya</a:Creator>
-<a:ModificationDate>1652163338</a:ModificationDate>
+<a:ModificationDate>1652357710</a:ModificationDate>
 <a:Modifier>Ilya</a:Modifier>
 <a:Priority>0</a:Priority>
 <a:Status>0</a:Status>
@@ -1487,11 +1487,11 @@ FullDescription
 </o:Requirement>
 <o:Requirement Id="o71">
 <a:ObjectID>EA9214F4-1A6E-4905-9037-F7A61E3B3649</a:ObjectID>
-<a:Requirement.Title>Не менее 6 символов и не более 128</a:Requirement.Title>
+<a:Requirement.Title>Не менее 3 символов и не более 16</a:Requirement.Title>
 <a:Code>REQ_  59</a:Code>
 <a:CreationDate>1652163398</a:CreationDate>
 <a:Creator>Ilya</a:Creator>
-<a:ModificationDate>1652163404</a:ModificationDate>
+<a:ModificationDate>1652357716</a:ModificationDate>
 <a:Modifier>Ilya</a:Modifier>
 <a:Priority>0</a:Priority>
 <a:Status>0</a:Status>
