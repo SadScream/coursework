@@ -1,4 +1,4 @@
-﻿using PlumMessenger.Classes;
+﻿using PlumMessenger.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,15 +11,16 @@ using System.Windows.Forms;
 
 namespace PlumMessenger
 {
-    public partial class Form1 : Form
+    public partial class MainF : Form
     {
-        public Form1()
+        public MainF()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainF_Load(object sender, EventArgs e)
         {
+
         }
     }
 }

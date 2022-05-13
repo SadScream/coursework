@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PlumMessenger.Classes;
+using PlumMessenger.Models;
 
 namespace PlumMessenger
 {
@@ -24,17 +24,17 @@ namespace PlumMessenger
 
             this.contact = contact;
 
-            contact.Changed += (s, e) => UpdateFields();
-            contact.AddMessage += NewMessage;
+            contact.Changed += ContactInfoChangedEvent;
+            contact.AddMessage += NewMessageEvent;
 
-            AddClickedEvent();
+            ClickedDispatch();
 
             Clicked += ClickedEvent;
 
             UpdateFields();
         }
 
-        private void AddClickedEvent()
+        private void ClickedDispatch()
         {
             this.MouseClick += (o, e) => Clicked.Invoke(this, e);
             foreach (Control c in GetNestedControls<Control>(this))
@@ -67,7 +67,12 @@ namespace PlumMessenger
             loginLabel.Text = String.Format(loginTemplate, contact.Login);
         }
 
-        private void NewMessage(object sender, EventArgs e)
+        private void ContactInfoChangedEvent(object sender, EventArgs e)
+        {
+            UpdateFields();
+        }
+
+        private void NewMessageEvent(object sender, EventArgs e)
         {
             int currentCount = Int32.Parse(newMessagesCountLabel.Text);
             currentCount += ((NotifyCollectionChangedEventArgs)e).NewItems.Count;

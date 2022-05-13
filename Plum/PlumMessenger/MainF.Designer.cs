@@ -1,7 +1,7 @@
 ﻿
 namespace PlumMessenger
 {
-    partial class Form1
+    partial class MainF
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,6 +29,7 @@ namespace PlumMessenger
         /// </summary>
         private void InitializeComponent()
         {
+            this.SuspendLayout();
             // 
             // Form1
             // 
@@ -37,8 +38,9 @@ namespace PlumMessenger
             this.ClientSize = new System.Drawing.Size(879, 487);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainF_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion

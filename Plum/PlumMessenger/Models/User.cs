@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlumMessenger.Classes
+namespace PlumMessenger.Models
 {
     public class User
     {
