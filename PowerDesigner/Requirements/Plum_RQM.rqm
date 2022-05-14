@@ -1787,11 +1787,11 @@ FullDescription
 </o:Requirement>
 <o:Requirement Id="o93">
 <a:ObjectID>476F9DBF-9ACC-4835-8B1F-9C060B3A5BA5</a:ObjectID>
-<a:Requirement.Title>Только буквы латинского алфавита, цифры и символы: *_()#!&amp;</a:Requirement.Title>
+<a:Requirement.Title>Только буквы латинского алфавита и цифры</a:Requirement.Title>
 <a:Code>REQ_  23</a:Code>
 <a:CreationDate>1651506430</a:CreationDate>
 <a:Creator>Ilya</a:Creator>
-<a:ModificationDate>1651506445</a:ModificationDate>
+<a:ModificationDate>1652441054</a:ModificationDate>
 <a:Modifier>Ilya</a:Modifier>
 <a:Priority>0</a:Priority>
 <a:Status>0</a:Status>

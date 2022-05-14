@@ -68,14 +68,44 @@ def get_contacts(session: requests.Session, host: str):
 	return r.json()
 
 
+def change_username(session: requests.Session, host: str, new_username: str):
+	url = host % "user/"
+
+	r = session.post(url=url, json={
+		"username": new_username
+	})
+
+	print("CHANGE USERNAME result: ", r.json(), "\n")
+	return r.json()
+
+
+def change_login(session: requests.Session, host: str, new_login: str):
+	url = host % "user/"
+
+	r = session.post(url=url, json={
+		"login": new_login
+	})
+
+	print("CHANGE LOGIN result: ", r.json(), "\n")
+	return r.json()
+
+
 if __name__ == '__main__':
 	host = "http://127.0.0.1:5000/api/%s"
 	session = requests.Session()
 	# registration(session, host, "saddy", "123")
 	# registration(session, host, "sadscream", "123")
-	login(session, host, "sadscream", "123")
+	# registration(session, host, "test", "test")
+	# login(session, host, "sadscream", "123")
+	# login(session, host, "saddy", "123")
+	login(session, host, "ЖОПА", "test")
+	# change_username(session, host, "saddysa")
+	change_username(session, host, "аманчик")
+	change_login(session, host, "эээ")
+
 	# get_users(session, host)
-	# send_message(session, host, 1, "hello!")
-	add_contact(session, host, 1)
+	# send_message(session, host, 5, "hello!")
+	# add_contact(session, host, 5)
+	# add_contact(session, host, 6)
 	# get_messages(session, host)
-	get_contacts(session, host)
+	# get_contacts(session, host)

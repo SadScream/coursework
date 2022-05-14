@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlumMessenger.Connection.Requests
+namespace PlumMessenger.Connection
 {
-    abstract class RequestDecorator
+    class Puller
     {
     }
 }

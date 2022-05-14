@@ -10,13 +10,13 @@ from sqlalchemy import exc
 from config import *
 from models.db_context import db, User
 from tools.response import make_response
-from api import user, message, authorization
+from api import user, users, contact, message, authorization
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USERNAME}:{PASSWORD}@{HOST}/{DB_NAME}'
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['DEBUG'] = True
+# app.config['DEBUG'] = True
 
 db.init_app(app)
 
@@ -26,6 +26,8 @@ login_manager.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
 app.register_blueprint(user.user_api, url_prefix="/api")
+app.register_blueprint(users.users_api, url_prefix="/api")
+app.register_blueprint(contact.contact_api, url_prefix="/api")
 app.register_blueprint(message.msg_api, url_prefix="/api")
 app.register_blueprint(authorization.auth_api, url_prefix="/api")
 

@@ -31,9 +31,9 @@ namespace PlumMessenger
         {
             this.usernameLabel = new System.Windows.Forms.Label();
             this.newMessagesCountLabel = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.dataPanel = new System.Windows.Forms.Panel();
             this.loginLabel = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.dataPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // usernameLabel
@@ -49,7 +49,7 @@ namespace PlumMessenger
             // 
             // newMessagesCountLabel
             // 
-            this.newMessagesCountLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.newMessagesCountLabel.Dock = System.Windows.Forms.DockStyle.Right;
             this.newMessagesCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.newMessagesCountLabel.Location = new System.Drawing.Point(161, 0);
             this.newMessagesCountLabel.Name = "newMessagesCountLabel";
@@ -58,15 +58,15 @@ namespace PlumMessenger
             this.newMessagesCountLabel.Text = "0";
             this.newMessagesCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // panel1
+            // dataPanel
             // 
-            this.panel1.Controls.Add(this.loginLabel);
-            this.panel1.Controls.Add(this.usernameLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(161, 56);
-            this.panel1.TabIndex = 2;
+            this.dataPanel.Controls.Add(this.loginLabel);
+            this.dataPanel.Controls.Add(this.usernameLabel);
+            this.dataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataPanel.Location = new System.Drawing.Point(0, 0);
+            this.dataPanel.Name = "dataPanel";
+            this.dataPanel.Size = new System.Drawing.Size(161, 56);
+            this.dataPanel.TabIndex = 2;
             // 
             // loginLabel
             // 
@@ -82,13 +82,14 @@ namespace PlumMessenger
             // 
             // ContactElement
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.Thistle;
+            this.Controls.Add(this.dataPanel);
             this.Controls.Add(this.newMessagesCountLabel);
-            this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.Name = "ContactElement";
             this.Size = new System.Drawing.Size(203, 56);
-            this.panel1.ResumeLayout(false);
+            this.dataPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -97,7 +98,7 @@ namespace PlumMessenger
 
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label newMessagesCountLabel;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel dataPanel;
         private System.Windows.Forms.Label loginLabel;
     }
 }

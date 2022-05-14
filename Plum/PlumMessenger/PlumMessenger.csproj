@@ -36,8 +36,14 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.8\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,15 +55,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auth.cs">
+    <Compile Include="Connection\Errors\AuthErrors.cs" />
+    <Compile Include="Connection\Puller.cs" />
+    <Compile Include="Connection\Requests\Auth.cs" />
+    <Compile Include="Connection\Requests\Base.cs" />
+    <Compile Include="Connection\Requests\DefaultRequest.cs" />
+    <Compile Include="Connection\Requests\Messages.cs" />
+    <Compile Include="Connection\Requests\Contacts.cs" />
+    <Compile Include="Controls\LoginElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LoginElement.Designer.cs">
+      <DependentUpon>LoginElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RegistrationElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RegistrationElement.Designer.cs">
+      <DependentUpon>RegistrationElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Auth.Designer.cs">
-      <DependentUpon>Auth.cs</DependentUpon>
+    <Compile Include="Login.designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Connection\Requests\Base.cs" />
-    <Compile Include="Connection\Requests\ILogin.cs" />
-    <Compile Include="Connection\Requests\RequestDecorator.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Controls\ContactElement.cs">
@@ -74,11 +96,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Auth.resx">
-      <DependentUpon>Auth.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ContactElement.resx">
       <DependentUpon>ContactElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LoginElement.resx">
+      <DependentUpon>LoginElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RegistrationElement.resx">
+      <DependentUpon>RegistrationElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainF.resx">
       <DependentUpon>MainF.cs</DependentUpon>
@@ -92,6 +120,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

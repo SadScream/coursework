@@ -18,6 +18,11 @@ namespace PlumMessenger
         string loginTemplate = "@{0}";
         public event EventHandler Clicked;
 
+        public ContactElement()
+        {
+            InitializeComponent();
+        }
+
         public ContactElement(User contact)
         {
             InitializeComponent();

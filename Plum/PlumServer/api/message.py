@@ -50,16 +50,20 @@ def get_messages():
 	}
 
 	from_date = request.args.get("timestamp")  # сообщения будут искаться начиная с этой даты
+	count = request.args.get("count")
 
 	if from_date is None:  # если дата не была передана, то ищем сообщения за 24 часа
 		current_time = datetime.datetime.utcnow()
 		from_date = current_time - datetime.timedelta(seconds=60 * 60 * 24)
 
+	if count is None:
+		count = 50
+
 	list_messages: List[Message] = db.session.query(Message).filter(
-		Message.owner == current_user
+		(Message.owner == current_user or Message.recipient == current_user)
 		and
 		Message.date >= from_date
-	).all()
+	).limit(count)
 
 	data["messages"] = list(map(message_to_json, list_messages))
 

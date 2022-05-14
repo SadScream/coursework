@@ -23,7 +23,7 @@ def sign_up():
 	}
 
 	if current_user.is_authenticated:
-		data["message"] = "Logged in"
+		data["message"] = "Вы авторизованы"
 		return json_response(data, 403)
 
 	r = request.json
@@ -33,7 +33,7 @@ def sign_up():
 	user_obj = db.session.query(User).filter(User.login == login).first()
 
 	if user_obj:
-		data["message"] = "This login is already taken"
+		data["message"] = "Этот логин уже занят"
 		return json_response(data, 406)
 
 	if len(login) and len(password):
@@ -47,6 +47,10 @@ def sign_up():
 
 		return json_response(data)
 
+	data["message"] = ("Неправильный формат логина или пароля. "
+		"Логин должен быть не короче 3 символов и не длиннее 16. "
+		"Пароль должен быть длиной не менее 6 символов и не более 32, "
+		"а также состоять только из букв латинского алфавита и цифр")
 	return json_response(data, 401)
 
 
@@ -70,7 +74,7 @@ def sign_in():
 
 	if current_user.is_authenticated:
 		data["ok"] = True
-		data["message"] = "You're already logged in"
+		data["message"] = "Вы уже авторизованы"
 		return json_response(data, 200)
 
 	remember: bool = request.args.get("remember") == "1"
@@ -87,7 +91,7 @@ def sign_in():
 
 			return json_response(data)
 
-		data["message"] = "Invalid login/password"
+		data["message"] = "Неправильный логин или пароль"
 		return json_response(data, 403)
 
 	data["message"] = "BasicAuth needs"
