@@ -30,7 +30,7 @@ def send_message(session: requests.Session, host: str, recipient_id: int, text: 
 	r = session.post(url=url, json={
 		"recipient_id": recipient_id,
 		"text": text,
-		"date": time.time()
+		"date": datetime.datetime.now().timestamp()
 	})
 
 	print("SEND_MESSAGE result: ", r.json(), "\n")
@@ -54,8 +54,15 @@ def get_users(session: requests.Session, host: str):
 	return r.json()
 
 
-def get_messages(session: requests.Session, host: str):
+def get_new_messages(session: requests.Session, host: str):
 	url = host % "messages/"
+	r = session.get(url)
+	print("GET NEW MESSAGES result: ", r.json(), "\n")
+	return r.json()
+
+
+def get_messages(session: requests.Session, host: str, rec_id: int):
+	url = host % f"messages/history/{rec_id}"
 	r = session.get(url)
 	print("GET MESSAGES result: ", r.json(), "\n")
 	return r.json()
@@ -90,22 +97,27 @@ def change_login(session: requests.Session, host: str, new_login: str):
 	return r.json()
 
 
+def search(session: requests.Session, host: str, query: str):
+	url = host % f"users/search/{query}"
+	r = session.get(url)
+	print("SEARCH USERS result: ", r.json(), "\n")
+	return r.json()
+
+
 if __name__ == '__main__':
 	host = "http://127.0.0.1:5000/api/%s"
 	session = requests.Session()
 	# registration(session, host, "saddy", "123")
 	# registration(session, host, "sadscream", "123")
 	# registration(session, host, "test", "test")
+	# registration(session, host, "test2", "test2")
 	# login(session, host, "sadscream", "123")
-	# login(session, host, "saddy", "123")
-	login(session, host, "ЖОПА", "test")
-	# change_username(session, host, "saddysa")
-	change_username(session, host, "аманчик")
-	change_login(session, host, "эээ")
-
-	# get_users(session, host)
-	# send_message(session, host, 5, "hello!")
-	# add_contact(session, host, 5)
+	login(session, host, "test", "test")
 	# add_contact(session, host, 6)
+	# get_messages(session, host, 7)
+	# change_username(session, host, "krutoi")
+	# send_message(session, host, 5, "куку")
+	# get_users(session, host)
 	# get_messages(session, host)
 	# get_contacts(session, host)
+	search(session, host, "7924")

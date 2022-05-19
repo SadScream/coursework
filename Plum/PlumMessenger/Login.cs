@@ -12,17 +12,17 @@ namespace PlumMessenger
 {
     public partial class Login : Form
     {
-        Auth authApi;
+        AuthRequest authApi;
 
         public Login()
         {
             InitializeComponent();
-            authApi = new Auth();
+            authApi = new AuthRequest();
         }
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Auth.LoggedIn)
+            if (!AuthRequest.LoggedIn)
             {
                 Application.Exit();
             }
@@ -32,8 +32,9 @@ namespace PlumMessenger
         {
             try
             {
-                await authApi.SignInMethod(loginElement.GetLogin(), loginElement.GetPassword());
-
+                UserRequest.CurrentUserId = await authApi.SignInMethod(loginElement.GetLogin(), loginElement.GetPassword());
+                UserRequest ur = new UserRequest();
+                await ur.GetUser();
                 Close();
             }
             catch (Exception exc)

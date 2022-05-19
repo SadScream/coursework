@@ -11,14 +11,14 @@ using System.Net;
 
 namespace PlumMessenger.Connection.Requests
 {
-    public class Auth : DefaultRequest
+    public class AuthRequest : DefaultRequest
     {
         public static bool LoggedIn = false;
         string ApiSignUp { get; set; }
         string ApiSignIn { get; set; }
         string ApiLogout { get; set; }
 
-        public Auth(string host = null) : base(host)
+        public AuthRequest(string host = null) : base(host)
         {
             ApiSignUp = String.Format(ApiTemplate, "sign-up/");
             ApiSignIn = String.Format(ApiTemplate, "sign-in/");
@@ -36,7 +36,7 @@ namespace PlumMessenger.Connection.Requests
             {
                 JObject json = await GetJsonFromHttpContent(response.Content);
 
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                if ((int)response.StatusCode == 422)
                 {
                     throw new IncorrectLoginOrPasswordFormat(json["message"].ToString());
                 }
@@ -51,33 +51,29 @@ namespace PlumMessenger.Connection.Requests
             }
         }
 
-        public async Task SignInMethod(string login, string password)
+        public async Task<int> SignInMethod(string login, string password)
         {
             var byteArray = Encoding.ASCII.GetBytes($"{login}:{password}");
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             HttpResponseMessage response = await Client.GetAsync(ApiSignIn);
+            JObject json = await GetJsonFromHttpContent(response.Content);
 
             if (!response.IsSuccessStatusCode)
-            {
-                JObject json = await GetJsonFromHttpContent(response.Content);
-
+            {   
                 if (response.StatusCode == HttpStatusCode.Forbidden)
                 {
                     throw new InvalidLoginOrPassword(json["message"].ToString());
                 }
             }
-            else
+            else if (json["message"] != null)
             {
-                JObject json = await GetJsonFromHttpContent(response.Content);
-
-                if (json.Properties().Select(p => p.Name).Contains("message")) // уже авторизован
-                {
-                    throw new Authorized(json["message"].ToString());
-                }
+                throw new Authorized(json["message"].ToString());
             }
 
             LoggedIn = true;
             Client.DefaultRequestHeaders.Authorization = null;
+
+            return (int)json["user_id"];
         }
 
         public async Task LogoutMethod(string login, string password)

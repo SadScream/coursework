@@ -2,6 +2,7 @@ import datetime, time
 from flask import Blueprint, request
 from flask_login import login_required, current_user, logout_user, login_user
 
+from api.users import check_login, check_password
 from tools.response import *  # noqa
 from models.db_context import db, User, Message  # noqa
 
@@ -36,7 +37,7 @@ def sign_up():
 		data["message"] = "Этот логин уже занят"
 		return json_response(data, 406)
 
-	if len(login) and len(password):
+	if check_login(login) and check_password(password):
 		user = User(login=login, username=login)
 		user.set_password(password)
 
@@ -47,11 +48,13 @@ def sign_up():
 
 		return json_response(data)
 
-	data["message"] = ("Неправильный формат логина или пароля. "
-		"Логин должен быть не короче 3 символов и не длиннее 16. "
+	data["message"] = (
+		"Логин должен быть не короче 3 символов и не длиннее 16, "
+		"а также состоять только из букв латинского алфавита, цифр и "
+		"символов *_()#!&.\n"
 		"Пароль должен быть длиной не менее 6 символов и не более 32, "
 		"а также состоять только из букв латинского алфавита и цифр")
-	return json_response(data, 401)
+	return json_response(data, 422)
 
 
 @auth_api.route('/sign-in/', methods=['GET'])

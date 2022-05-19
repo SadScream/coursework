@@ -49,7 +49,7 @@ def update_last_visit():
 	"""
 
 	if current_user.is_authenticated:
-		current_user.last_visit = datetime.datetime.now()
+		current_user.last_visit = datetime.datetime.utcnow()
 		db.session.commit()
 
 

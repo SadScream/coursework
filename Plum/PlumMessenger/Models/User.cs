@@ -12,10 +12,7 @@ namespace PlumMessenger.Models
 {
     public class User
     {
-        public event EventHandler Changed;
-        public event EventHandler AddMessage;
-        public event EventHandler AddContact;
-        public event EventHandler RemoveContact;
+        public event EventHandler EditEvent;
 
         private string login;
         private string username;
@@ -23,6 +20,8 @@ namespace PlumMessenger.Models
         private string status;
         private DateTime lastVisit;
         private bool phonePublicy;
+
+        public string password;
 
         public int Id { get; set; }
         public string Login
@@ -35,7 +34,7 @@ namespace PlumMessenger.Models
             {
                 if (value == login) return;
 
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 login = value;
             }
         }
@@ -50,7 +49,7 @@ namespace PlumMessenger.Models
             {
                 if (value == username) return;
 
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 username = value;
             }
         }
@@ -65,7 +64,7 @@ namespace PlumMessenger.Models
             {
                 if (value == phoneNumber) return;
 
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 phoneNumber = value;
             }
         }
@@ -80,7 +79,7 @@ namespace PlumMessenger.Models
             {
                 if (value == status) return;
 
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 status = value;
             }
         }
@@ -93,7 +92,7 @@ namespace PlumMessenger.Models
             }
             set
             {
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 lastVisit = value;
             }
         }
@@ -108,61 +107,16 @@ namespace PlumMessenger.Models
             {
                 if (value == phonePublicy) return;
 
-                Changed?.Invoke(this, EventArgs.Empty);
+                EditEvent?.Invoke(this, EventArgs.Empty);
                 phonePublicy = value;
             }
         }
 
-        private ObservableCollection<User> contacts = new ObservableCollection<User>();
-        private ObservableCollection<Message> messages = new ObservableCollection<Message>();
-
         public User()
         {
-            messages.CollectionChanged += MessagesModifiedEvent;
-            GetContacts().CollectionChanged += ContactsModifiedEvent;
         }
 
-        public ObservableCollection<User> GetContacts()
-        {
-            return contacts;
-        }
-
-        public ObservableCollection<Message> GetMessages()
-        {
-            return messages;
-        }
-
-        public void SetContacts(List<User> newContacts)
-        {
-            contacts = new ObservableCollection<User>(newContacts);
-        }
-
-        public void SetMessages(List<Message> newMessages)
-        {
-            messages = new ObservableCollection<Message>(newMessages);
-        }
-
-        private void MessagesModifiedEvent(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                AddMessage?.Invoke(this, e);
-            }
-        }
-
-        private void ContactsModifiedEvent(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                AddContact?.Invoke(this, e as NotifyCollectionChangedEventArgs);
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                RemoveContact?.Invoke(this, e as NotifyCollectionChangedEventArgs);
-            }
-        }
-
-        public static User UserFromJson(JObject json)
+        public static User FromJson(JObject json, bool ignorePhonePublicy = false)
         {
             User contact = new User();
             contact.Id = (int)json["user_id"];
@@ -170,9 +124,9 @@ namespace PlumMessenger.Models
             contact.Username = (string)json["username"];
             contact.PhonePublicy = (bool)json["phone_visibility"];
 
-            if (contact.PhonePublicy)
+            if (contact.PhonePublicy || ignorePhonePublicy)
             {
-                contact.phoneNumber = (string)json["phone_number"];
+                contact.PhoneNumber = (string)json["phone_number"];
             }
 
             contact.Status = (string)json["status"];
@@ -182,6 +136,34 @@ namespace PlumMessenger.Models
             contact.LastVisit = dt;
 
             return contact;
+        }
+
+        internal static JObject ToJson(User currentUser)
+        {
+            JObject json = new JObject();
+
+            json["user_id"] = currentUser.Id;
+            json["login"] = currentUser.Login;
+            json["username"] = currentUser.Username;
+            json["phone_visibility"] = currentUser.PhonePublicy;
+            json["phone_number"] = currentUser.PhoneNumber;
+            json["status"] = currentUser.Status;
+            json["password"] = currentUser.password;
+
+            return json;
+        }
+
+        /// <summary>
+        /// Возвращает true, если пользователь проявлял активность за последние 5 минут
+        /// Возвращает false иначе
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOnline()
+        {
+            if ((DateTime.UtcNow - LastVisit).TotalMinutes > 5)
+                return false;
+
+            return true;
         }
 
         public static void UpdateFromUser(User to, User from)

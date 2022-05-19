@@ -56,17 +56,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Errors\AuthErrors.cs" />
+    <Compile Include="Connection\Errors\ContactError.cs" />
+    <Compile Include="Connection\Errors\MessageErrors.cs" />
     <Compile Include="Connection\Puller.cs" />
-    <Compile Include="Connection\Requests\Auth.cs" />
+    <Compile Include="Connection\Requests\AuthRequest.cs" />
     <Compile Include="Connection\Requests\Base.cs" />
     <Compile Include="Connection\Requests\DefaultRequest.cs" />
-    <Compile Include="Connection\Requests\Messages.cs" />
-    <Compile Include="Connection\Requests\Contacts.cs" />
+    <Compile Include="Connection\Requests\MessagesRequest.cs" />
+    <Compile Include="Connection\Requests\ContactsRequest.cs" />
+    <Compile Include="Connection\Requests\UserRequest.cs" />
+    <Compile Include="Controls\ContactInfoElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContactInfoElement.Designer.cs">
+      <DependentUpon>ContactInfoElement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LoginElement.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\LoginElement.Designer.cs">
       <DependentUpon>LoginElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MeBubble.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MeBubble.designer.cs">
+      <DependentUpon>MeBubble.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\RegistrationElement.cs">
       <SubType>UserControl</SubType>
@@ -74,12 +89,26 @@
     <Compile Include="Controls\RegistrationElement.Designer.cs">
       <DependentUpon>RegistrationElement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Shaping.cs" />
+    <Compile Include="Controls\UserEditElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserEditElement.Designer.cs">
+      <DependentUpon>UserEditElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\YouBubble.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\YouBubble.designer.cs">
+      <DependentUpon>YouBubble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Controls\ContactElement.cs">
@@ -99,11 +128,23 @@
     <EmbeddedResource Include="Controls\ContactElement.resx">
       <DependentUpon>ContactElement.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ContactInfoElement.resx">
+      <DependentUpon>ContactInfoElement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\LoginElement.resx">
       <DependentUpon>LoginElement.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MeBubble.resx">
+      <DependentUpon>MeBubble.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RegistrationElement.resx">
       <DependentUpon>RegistrationElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserEditElement.resx">
+      <DependentUpon>UserEditElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\YouBubble.resx">
+      <DependentUpon>YouBubble.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -119,6 +160,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -134,6 +176,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

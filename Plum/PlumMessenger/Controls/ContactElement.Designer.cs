@@ -40,6 +40,7 @@ namespace PlumMessenger
             // 
             this.usernameLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.usernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.usernameLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.usernameLabel.Location = new System.Drawing.Point(0, 0);
             this.usernameLabel.Name = "usernameLabel";
             this.usernameLabel.Size = new System.Drawing.Size(161, 34);
@@ -51,11 +52,11 @@ namespace PlumMessenger
             // 
             this.newMessagesCountLabel.Dock = System.Windows.Forms.DockStyle.Right;
             this.newMessagesCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.newMessagesCountLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.newMessagesCountLabel.Location = new System.Drawing.Point(161, 0);
             this.newMessagesCountLabel.Name = "newMessagesCountLabel";
             this.newMessagesCountLabel.Size = new System.Drawing.Size(42, 56);
             this.newMessagesCountLabel.TabIndex = 1;
-            this.newMessagesCountLabel.Text = "0";
             this.newMessagesCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dataPanel
@@ -72,7 +73,7 @@ namespace PlumMessenger
             // 
             this.loginLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.loginLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.loginLabel.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.loginLabel.Location = new System.Drawing.Point(0, 34);
             this.loginLabel.Name = "loginLabel";
             this.loginLabel.Size = new System.Drawing.Size(161, 22);
@@ -83,12 +84,13 @@ namespace PlumMessenger
             // ContactElement
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Thistle;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(25)))), ((int)(((byte)(33)))));
             this.Controls.Add(this.dataPanel);
             this.Controls.Add(this.newMessagesCountLabel);
-            this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.Name = "ContactElement";
             this.Size = new System.Drawing.Size(203, 56);
+            this.Load += new System.EventHandler(this.ContactElement_Load);
             this.dataPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -16,7 +16,6 @@ user_contact_association = db.Table('user_contact', db.Model.metadata,
 
 
 class User(db.Model, UserMixin):
-	__tablename__ = 'user'
 	user_id = db.Column(db.Integer, primary_key=True)
 	login = db.Column(db.String(128), nullable=False, unique=True)
 	username = db.Column(db.String(128), nullable=False)
@@ -26,11 +25,15 @@ class User(db.Model, UserMixin):
 	status = db.Column(db.String(256), nullable=True)
 	last_visit = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())
 
-	messages = db.relationship('Message', backref='owner', lazy=True, foreign_keys="[Message.owner_id]")
+	messages = db.relationship('Message',
+							   cascade="all,delete",
+							   backref='owner', lazy=True,
+							   foreign_keys="[Message.owner_id]")
 	contacts = db.relationship('User',
-						   secondary=user_contact_association,
-						   primaryjoin=user_id == user_contact_association.c.user_id,
-						   secondaryjoin=user_id == user_contact_association.c.contact_id)
+							   cascade="all,delete",
+							   secondary=user_contact_association,
+							   primaryjoin=user_id == user_contact_association.c.user_id,
+							   secondaryjoin=user_id == user_contact_association.c.contact_id)
 
 	def __repr__(self):
 		return "<{0}: {1}>".format(self.user_id, self.username)
@@ -56,7 +59,6 @@ class User(db.Model, UserMixin):
 
 
 class Message(db.Model):
-	__tablename__ = 'message'
 	message_id = db.Column(db.Integer, primary_key=True)
 
 	owner_id = db.Column(
@@ -74,3 +76,7 @@ class Message(db.Model):
 
 	text = db.Column(db.String(4096))
 	date = db.Column(DATETIME(fsp=6), nullable=False)
+	read = db.Column(db.Boolean, nullable=False, default=False)
+
+	def __repr__(self):
+		return "<{0}: {1}> (from: {2}, to: {3})".format(self.message_id, self.text, self.owner_id, self.recipient_id)

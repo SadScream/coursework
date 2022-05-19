@@ -50,27 +50,19 @@ def add_contact():
 
 		return json_response(data)
 
-	data["message"] = "User not found"
+	data["message"] = "Пользователь не найден"
 
 	return json_response(data, 404)
 
 
-@contact_api.route("/contacts/", methods=['DELETE'])
+@contact_api.route("/contacts/<int:user_id>", methods=['DELETE'])
 @login_required
-def delete_contact():
-	"""
-	-> JSON {
-		"user_id": int,
-	}
-	:return: JSON {'ok': true}
-	"""
-
+def delete_contact(user_id):
 	data = {
 		"ok": False
 	}
 
-	r = request.json
-	contact = db.session.query(User).filter(User.user_id == r["user_id"]).first()
+	contact = db.session.query(User).filter(User.user_id == user_id).first()
 
 	if contact:
 		current_user.remove_contact(contact)
@@ -79,6 +71,6 @@ def delete_contact():
 
 		return json_response(data)
 
-	data["message"] = "User not found"
+	data["message"] = "Пользователь не найден"
 
 	return json_response(data, 404)

@@ -44,6 +44,7 @@ namespace PlumMessenger.Controls
             // 
             this.label.AutoSize = true;
             this.label.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.label.ForeColor = System.Drawing.SystemColors.Control;
             this.label.Location = new System.Drawing.Point(24, 9);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(128, 25);
@@ -54,6 +55,7 @@ namespace PlumMessenger.Controls
             // 
             this.login_label.AutoSize = true;
             this.login_label.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.login_label.ForeColor = System.Drawing.SystemColors.Control;
             this.login_label.Location = new System.Drawing.Point(3, 0);
             this.login_label.Name = "login_label";
             this.login_label.Size = new System.Drawing.Size(41, 15);
@@ -62,21 +64,32 @@ namespace PlumMessenger.Controls
             // 
             // loginText
             // 
+            this.loginText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(48)))), ((int)(((byte)(62)))));
+            this.loginText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.loginText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.loginText.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.loginText.Location = new System.Drawing.Point(0, 16);
+            this.loginText.MaxLength = 16;
             this.loginText.Name = "loginText";
-            this.loginText.Size = new System.Drawing.Size(176, 20);
+            this.loginText.Size = new System.Drawing.Size(176, 21);
             this.loginText.TabIndex = 3;
             // 
             // passwordText
             // 
+            this.passwordText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(48)))), ((int)(((byte)(62)))));
+            this.passwordText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.passwordText.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.passwordText.Location = new System.Drawing.Point(0, 55);
+            this.passwordText.MaxLength = 32;
             this.passwordText.Name = "passwordText";
-            this.passwordText.Size = new System.Drawing.Size(176, 20);
+            this.passwordText.Size = new System.Drawing.Size(176, 21);
             this.passwordText.TabIndex = 5;
             // 
             // password_label
             // 
             this.password_label.AutoSize = true;
+            this.password_label.ForeColor = System.Drawing.SystemColors.Control;
             this.password_label.Location = new System.Drawing.Point(0, 39);
             this.password_label.Name = "password_label";
             this.password_label.Size = new System.Drawing.Size(45, 13);
@@ -97,28 +110,37 @@ namespace PlumMessenger.Controls
             // 
             // registrationBtn
             // 
+            this.registrationBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.registrationBtn.FlatAppearance.BorderSize = 0;
+            this.registrationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.registrationBtn.ForeColor = System.Drawing.SystemColors.Control;
             this.registrationBtn.Location = new System.Drawing.Point(26, 112);
             this.registrationBtn.Name = "registrationBtn";
             this.registrationBtn.Size = new System.Drawing.Size(123, 22);
             this.registrationBtn.TabIndex = 7;
             this.registrationBtn.Text = "Зарегистрироваться";
-            this.registrationBtn.UseVisualStyleBackColor = true;
+            this.registrationBtn.UseVisualStyleBackColor = false;
             this.registrationBtn.Click += new System.EventHandler(this.registrationBtn_Click);
             // 
             // goToLoginBtn
             // 
+            this.goToLoginBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.goToLoginBtn.FlatAppearance.BorderSize = 0;
+            this.goToLoginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.goToLoginBtn.ForeColor = System.Drawing.SystemColors.Control;
             this.goToLoginBtn.Location = new System.Drawing.Point(60, 177);
             this.goToLoginBtn.Name = "goToLoginBtn";
             this.goToLoginBtn.Size = new System.Drawing.Size(64, 23);
             this.goToLoginBtn.TabIndex = 8;
             this.goToLoginBtn.Text = "Назад";
-            this.goToLoginBtn.UseVisualStyleBackColor = true;
+            this.goToLoginBtn.UseVisualStyleBackColor = false;
             this.goToLoginBtn.Click += new System.EventHandler(this.goToLoginBtn_Click);
             // 
             // RegistrationElement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(33)))), ((int)(((byte)(43)))));
             this.Controls.Add(this.goToLoginBtn);
             this.Controls.Add(this.label);
             this.Controls.Add(this.panel1);

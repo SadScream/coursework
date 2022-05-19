@@ -35,6 +35,7 @@ namespace PlumMessenger
             // 
             // loginElement
             // 
+            this.loginElement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(33)))), ((int)(((byte)(43)))));
             this.loginElement.Location = new System.Drawing.Point(12, 12);
             this.loginElement.Name = "loginElement";
             this.loginElement.Size = new System.Drawing.Size(187, 207);
@@ -52,11 +53,14 @@ namespace PlumMessenger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(33)))), ((int)(((byte)(43)))));
             this.ClientSize = new System.Drawing.Size(207, 220);
             this.Controls.Add(this.registrationElement);
             this.Controls.Add(this.loginElement);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
             this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Вход";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Login_FormClosing);
             this.Load += new System.EventHandler(this.Login_Load);
