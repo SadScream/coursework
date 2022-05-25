@@ -13,6 +13,17 @@ contact_api = Blueprint('contact_api', __name__)
 @contact_api.route("/contacts/", methods=['GET'])
 @login_required
 def get_contacts():
+	"""
+	Возвращает список контактов авторизованного пользователя
+
+	:return Response<200>:
+		{
+			"ok": bool,
+			"contacts": list[User]
+		}
+	:rtype: json
+	"""
+
 	data = {
 		"ok": True,
 		"contacts": list(map(user_to_json, current_user.contacts))
@@ -25,10 +36,22 @@ def get_contacts():
 @login_required
 def add_contact():
 	"""
-	-> JSON {
-		"user_id": int,
+	Принимает в POST-запросе JSON-объект, содержащий идентификатор пользователя, которого
+	нужно добавить в контакты
+
+	-> {
+		"user_id": int
 	}
-	:return: JSON {'ok': true}
+	:return Response<200>:
+		{
+			'ok': true
+		}
+	:return Response<!200>:
+		{
+			"ok": bool,
+			"message": str
+		}
+	:rtype: json
 	"""
 
 	data = {
@@ -58,6 +81,23 @@ def add_contact():
 @contact_api.route("/contacts/<int:user_id>", methods=['DELETE'])
 @login_required
 def delete_contact(user_id):
+	"""
+	Удаляет пользователя из списка контактов
+
+	:param user_id: идентификатор пользователя
+	:type user_id: int
+	:return Response<200>:
+		{
+			"ok": bool
+		}
+	:return Response<!200>:
+		{
+			"ok": bool,
+			"message": str
+		}
+	:rtype: json
+	"""
+
 	data = {
 		"ok": False
 	}

@@ -45,7 +45,6 @@ def update_last_visit():
 	"""
 	При каждом обращении авторизованного пользователя к какому-либо пути
 	обновляем дату его последнего обращения
-	:return: None
 	"""
 
 	if current_user.is_authenticated:

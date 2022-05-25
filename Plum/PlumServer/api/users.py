@@ -16,6 +16,17 @@ users_api = Blueprint('users_api', __name__)
 @users_api.route("/users/", methods=['GET'])
 @login_required
 def get_users():
+	"""
+	Возвращает список пользователей
+
+	:return Response<200>:
+		{
+			"ok": bool,
+			"users": list[User]
+		}
+	:rtype: json
+	"""
+
 	list_users = db.session.query(User).all()
 
 	data = {
@@ -26,63 +37,23 @@ def get_users():
 	return data
 
 
-@users_api.route("/users/<int:user_id>", methods=['GET'])
-@login_required
-def get_user_by_id(user_id):
-	user_obj = db.session.query(User).filter(User.user_id == user_id).first()
-
-	data = {
-		"ok": False
-	}
-
-	if user_obj:
-		data.update(user_to_json(user_obj))
-		data["ok"] = True
-
-		return json_response(data)
-
-	return json_response(data, 404)
-
-
-@users_api.route("/users/<string:login>", methods=['GET'])
-@login_required
-def get_user_by_login(login):
-	user_obj: User = db.session.query(User).filter(User.login == login).first()
-
-	data = {
-		"ok": False
-	}
-
-	if user_obj:
-		data.update(user_to_json(user_obj))
-		data["ok"] = True
-
-		return json_response(data)
-
-	return json_response(data, 404)
-
-
-@users_api.route("/users/<string:username>", methods=['GET'])
-@login_required
-def get_users_by_username(username):
-	users: List[User] = db.session.query(User).filter(User.username == username).all()
-
-	data = {
-		"ok": False
-	}
-
-	if len(users):
-		data["users"] = list(map(user_to_json, users))
-		data["ok"] = True
-
-		return json_response(data)
-
-	return json_response(data, 404)
-
-
 @users_api.route("/users/search/<string:query>", methods=['GET'])
 @login_required
 def search_users_by_query(query):
+	"""
+	Выполняет поиск по пользователям находя соответствие между входной строкой
+	`query` и одним из полей: username, login, phone_number
+
+	:param query: строка, по кторой будет произведен поиск
+	:type query: str
+	:return Response<200>:
+		{
+			"ok": bool,
+			"users": list[User]
+		}
+	:rtype: json
+	"""
+
 	def remove_non_digit(s: str):
 		return ''.join(filter(str.isdigit, s))
 

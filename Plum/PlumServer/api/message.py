@@ -15,12 +15,23 @@ msg_api = Blueprint('msg_api', __name__)
 @login_required
 def send_message():
 	"""
-	-> JSON {
+	Регистрирует новое сообщение
+
+	-> {
 		"recipient_id": int,
 		"text": str,
 		"date": float
 	}
-	:return: JSON {'ok': true}
+	:return Response<200>:
+		{
+			'ok': bool
+		}
+	:return Response<!200>:
+		{
+			'ok': bool,
+			'message': str
+		}
+	:rtype: json
 	"""
 
 	data = {
@@ -55,6 +66,17 @@ def send_message():
 @msg_api.route("/messages/", methods=['GET'])
 @login_required
 def get_new_messages():
+	"""
+	Возвращает еще не прочитанные сообщения
+
+	:return Response<200>:
+		{
+			"ok": bool,
+			"messages": list[Message]
+		}
+	:rtype: json
+	"""
+
 	data = {
 		"ok": True
 	}
@@ -74,6 +96,19 @@ def get_new_messages():
 @msg_api.route("/messages/history/<int:user_id>", methods=['GET'])
 @login_required
 def get_contact_messages(user_id):
+	"""
+	Возвращает сообщения от конкретного пользователя, при этом все сообщения становятся прочитанными
+
+	:param user_id: идентификатор пользователя
+	:type user_id: int
+	:return Response<200>:
+		{
+			"ok": bool,
+			"messages": list[Message]
+		}
+	:rtype: json
+	"""
+
 	data = {
 		"ok": False
 	}
@@ -89,11 +124,11 @@ def get_contact_messages(user_id):
 			and_(
 				Message.owner == user_obj,
 				Message.recipient == current_user,
-				Message.owner_id.in_(u.user_id for u in current_user.contacts)),  # если отправителя есть в контактах
+				Message.owner_id.in_(u.user_id for u in current_user.contacts)),  # если отправитель есть в контактах
 			and_(
 				Message.recipient == user_obj,
 				Message.owner == current_user,
-				Message.recipient_id.in_(u.user_id for u in current_user.contacts)  # если отправителя есть в контактах
+				Message.recipient_id.in_(u.user_id for u in current_user.contacts)  # если получатель есть в контактах
 			)
 		)
 	). \
@@ -107,24 +142,6 @@ def get_contact_messages(user_id):
 	db.session.commit()
 
 	return json_response(data)
-
-
-@msg_api.route("/messages/<int:message_id>", methods=['GET'])
-@login_required
-def get_message(message_id):
-	message_obj = db.session.query(User).filter(Message.message_id == message_id).first()
-
-	data = {
-		"ok": False
-	}
-
-	if message_obj:
-		data["ok"] = True
-		data.update(message_to_json(message_obj))
-
-		return json_response(data)
-
-	return json_response(data, 404)
 
 
 def message_to_json(message_obj: Message, set_read: bool = False) -> dict:

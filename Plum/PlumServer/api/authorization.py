@@ -12,11 +12,22 @@ auth_api = Blueprint('auth_api', __name__)
 @auth_api.route('/sign-up/', methods=['POST'])
 def sign_up():
 	"""
-	-> JSON {
-		"username": str,
+	В POST-запросе принимает JSON-объект, содержащий поле логина и пароля регистрируемого пользователя
+
+	-> {
+		"login": str,
 		"password": str
 	}
-	:return: JSON {'ok': true}
+	:return Response<200>:
+		{
+			'ok': bool
+		}
+	:return Response<!200>:
+		{
+			'ok': bool,
+			'message': str
+		}
+	:rtype: json
 	"""
 
 	data = {
@@ -45,7 +56,6 @@ def sign_up():
 		db.session.commit()
 
 		data["ok"] = True
-
 		return json_response(data)
 
 	data["message"] = (
@@ -59,17 +69,21 @@ def sign_up():
 
 @auth_api.route('/sign-in/', methods=['GET'])
 def sign_in():
-	'''
-	BasicAuth метод авторизации
+	"""
+	Авторизация пользователя Basic-методом
+	В HTTP-заголовке передается строка в кодировке Base64 в виде пары логин:пароль
 
-	-> HEADERS:
-		Authorization: Basic <login:password>  *BASE64*
-	:return: {
+	:return Response<200>: {
 		"ok": bool,
 		"user_id": int,
 		"message": str
 	}
-	'''
+	:return Response<!200>: {
+		"ok": bool,
+		"message": str
+	}
+	:rtype: json
+	"""
 
 	data = {
 		"ok": False
@@ -80,15 +94,13 @@ def sign_in():
 		data["message"] = "Вы уже авторизованы"
 		return json_response(data, 200)
 
-	remember: bool = request.args.get("remember") == "1"
-
 	if request.authorization:
 		login = request.authorization.username
 		password = request.authorization.password
 		user_obj = db.session.query(User).filter(User.login == login).first()
 
 		if user_obj and user_obj.check_password(password):
-			login_user(user_obj, remember=remember)
+			login_user(user_obj)
 			data["ok"] = True
 			data["user_id"] = user_obj.user_id
 
@@ -107,9 +119,11 @@ def logout():
 	'''
 	Выход из учетной записи
 
-	:return: {
-		"ok": bool
-	}
+	:return Response<200>:
+		{
+			"ok": bool
+		}
+	:rtype: json
 	'''
 
 	logout_user()
