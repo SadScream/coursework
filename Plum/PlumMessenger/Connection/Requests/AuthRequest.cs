@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
@@ -40,7 +38,7 @@ namespace PlumMessenger.Connection.Requests
                 {
                     throw new IncorrectLoginOrPasswordFormat(json["message"].ToString());
                 }
-                else if (response.StatusCode == HttpStatusCode.NotAcceptable)
+                else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
                     throw new LoginAlreadyTaken(json["message"].ToString());
                 }

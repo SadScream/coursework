@@ -2,11 +2,8 @@
 using PlumMessenger.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using PlumMessenger.Connection.Errors;
 
@@ -16,13 +13,11 @@ namespace PlumMessenger.Connection.Requests
     {
         string ApiNewMessages { get; set; }
         string ApiMessages { get; set; }
-        string ApiMessage { get; set; }
 
         public MessagesRequest(string host = null) : base(host)
         {
             ApiNewMessages = String.Format(ApiTemplate, "messages/");
             ApiMessages = String.Format(ApiTemplate, "messages/history/{0}");
-            ApiMessage = String.Format(ApiTemplate, "message/{0}");
         }
 
         public async Task<bool> SendMessage(int userId, string text)
@@ -81,11 +76,6 @@ namespace PlumMessenger.Connection.Requests
             }
 
             return messages;
-        }
-
-        public async Task GetMessage(int messageId)
-        {
-
         }
     }
 }

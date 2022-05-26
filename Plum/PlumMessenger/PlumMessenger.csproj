@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Errors\AuthErrors.cs" />
-    <Compile Include="Connection\Errors\ContactError.cs" />
+    <Compile Include="Connection\Errors\ContactErrors.cs" />
     <Compile Include="Connection\Errors\MessageErrors.cs" />
     <Compile Include="Connection\Puller.cs" />
     <Compile Include="Connection\Requests\AuthRequest.cs" />

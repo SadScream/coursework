@@ -5,8 +5,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlumMessenger.Models
 {
@@ -81,7 +79,7 @@ namespace PlumMessenger.Models
             }
         }
 
-        public static new Contact FromJson(JObject json)
+        public static Contact FromJson(JObject json)
         {
             Contact contact = new Contact();
             contact.Id = (int)json["user_id"];

@@ -46,7 +46,7 @@ def sign_up():
 
 	if user_obj:
 		data["message"] = "Этот логин уже занят"
-		return json_response(data, 406)
+		return json_response(data, 409)
 
 	if check_login(login) and check_password(password):
 		user = User(login=login, username=login)

@@ -1,5 +1,4 @@
-﻿
-namespace PlumMessenger.Controls
+﻿namespace PlumMessenger.Controls
 {
     partial class RegistrationElement
     {

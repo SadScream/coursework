@@ -3,7 +3,6 @@ import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.mysql import DATETIME
 from flask_login import UserMixin
-from typing import List
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -64,13 +63,13 @@ class Message(db.Model):
 	owner_id = db.Column(
 		db.Integer,
 		db.ForeignKey("user.user_id",
-					  ondelete='CASCADE'),
+					  ondelete='CASCADE')
 	)
 
 	recipient_id = db.Column(
 		db.Integer,
 		db.ForeignKey("user.user_id",
-					  ondelete='CASCADE'),
+					  ondelete='CASCADE')
 	)
 	recipient = db.relationship("User", foreign_keys=[recipient_id])
 
