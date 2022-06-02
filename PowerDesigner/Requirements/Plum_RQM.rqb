@@ -2003,11 +2003,11 @@ FullDescription
 </o:Requirement>
 <o:Requirement Id="o109">
 <a:ObjectID>BDFC4F3F-BB30-446F-81F4-683E22A1A25E</a:ObjectID>
-<a:Requirement.Title>Дата последнего посещения</a:Requirement.Title>
+<a:Requirement.Title>Активен ли сейчас пользователь</a:Requirement.Title>
 <a:Code>REQ_  39</a:Code>
 <a:CreationDate>1651507208</a:CreationDate>
 <a:Creator>Ilya</a:Creator>
-<a:ModificationDate>1651507222</a:ModificationDate>
+<a:ModificationDate>1652969778</a:ModificationDate>
 <a:Modifier>Ilya</a:Modifier>
 <a:Priority>0</a:Priority>
 <a:Status>0</a:Status>
